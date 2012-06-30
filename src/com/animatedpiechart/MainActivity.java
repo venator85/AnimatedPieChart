@@ -24,7 +24,7 @@ public class MainActivity extends Activity {
 		LinearLayout layout = (LinearLayout) findViewById(R.id.layout);
 
 		final PieChart p = new PieChart(this);
-		LayoutParams lp = new LayoutParams(400, 400);
+		LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT, 0);
 		p.setLayoutParams(lp);
 		p.setBackgroundColor(0xffffffff);
 		p.setOnSliceClickListener(new OnSliceClickListener() {

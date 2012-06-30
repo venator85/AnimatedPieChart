@@ -16,11 +16,11 @@ import com.nineoldandroids.animation.FloatEvaluator;
 import com.nineoldandroids.animation.ValueAnimator;
 
 public class PieChart extends View {
-	
+
 	public interface OnSliceClickListener {
 		void onSliceClicked(PieChart pieChart, int sliceNumber);
 	}
-	
+
 	private class AngleEvaluator extends FloatEvaluator {
 		@Override
 		public Float evaluate(float fraction, Number startValue, Number endValue) {
@@ -30,7 +30,11 @@ public class PieChart extends View {
 			return num;
 		}
 	}
-	
+
+	public static enum DominantMeasurement {
+		DOMINANT_WIDTH, DOMINANT_HEIGHT
+	}
+
 	private Paint[] paints;
 	private float[] sliceEndAngles;
 	private float[] sliceSizes;
@@ -41,8 +45,9 @@ public class PieChart extends View {
 
 	private RectF bounds;
 	private Rect tempBounds;
-	
+
 	private OnSliceClickListener onSliceClickListener;
+	private DominantMeasurement dominantMeasurement = DominantMeasurement.DOMINANT_WIDTH;
 
 	public PieChart(Context context) {
 		super(context);
@@ -75,6 +80,24 @@ public class PieChart extends View {
 	}
 
 	@Override
+	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+		super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
+		int newWidth;
+		int newHeight;
+
+		if (dominantMeasurement == DominantMeasurement.DOMINANT_WIDTH) {
+			newWidth = getMeasuredWidth();
+			newHeight = newWidth;
+		} else {
+			newHeight = getMeasuredHeight();
+			newWidth = newHeight;
+		}
+
+		setMeasuredDimension(newWidth, newHeight);
+	}
+
+	@Override
 	protected void onDraw(final Canvas canvas) {
 		if (!shouldDraw) {
 			return;
@@ -102,7 +125,7 @@ public class PieChart extends View {
 	public void anima() {
 		curSlice = 0;
 
-		//TODO add method to provide these Paint's
+		// TODO add method to provide these Paint's
 		Random random = new Random();
 		for (int i = 0; i < paints.length; i++) {
 			int r = random.nextInt(256);
@@ -114,8 +137,8 @@ public class PieChart extends View {
 
 		shouldDraw = true;
 		ValueAnimator animator = ValueAnimator.ofObject(new AngleEvaluator(), 0.0f, 360.0f);
-		animator.setDuration(2000); //TODO make method to provide duration
-		//TODO add method to provide an interpolator
+		animator.setDuration(2000); // TODO make method to provide duration
+		// TODO add method to provide an interpolator
 		animator.start();
 	}
 
@@ -143,11 +166,11 @@ public class PieChart extends View {
 		boolean isOnPieChart = distance <= mCenterX;
 		return isOnPieChart;
 	}
-	
+
 	public void setOnSliceClickListener(OnSliceClickListener onSliceClickListener) {
 		this.onSliceClickListener = onSliceClickListener;
 	}
-	
+
 	@Override
 	public void setOnClickListener(OnClickListener l) {
 		throw new UnsupportedOperationException("You should use setOnSliceClickListener() to set a click listener on a slice of the chart.");
@@ -161,19 +184,19 @@ public class PieChart extends View {
 			} else if (event.getAction() == MotionEvent.ACTION_UP) {
 				float x = event.getX();
 				float y = event.getY();
-	
+
 				Log.e("onTouchEvent", String.format("touch up - x: %f, y: %f", x, y));
-	
+
 				boolean inChart = isOnPieChart(x, y);
 				if (inChart) {
 					float angle = getAngle(x, y);
-					
+
 					int slice = -1;
 					float startAngle = 0f;
 					for (int i = 0; i < sliceEndAngles.length; i++) {
 						float sliceSize = sliceSizes[i];
 						float endAngle = startAngle + sliceSize;
-		
+
 						Log.e("onTouchEvent", String.format("slice %d, angle: %f, startAngle: %f, endAngle: %f", i, angle, startAngle, endAngle));
 						if (angle >= startAngle && angle <= (startAngle + sliceSize)) {
 							slice = i;
@@ -181,7 +204,7 @@ public class PieChart extends View {
 						}
 						startAngle += sliceSize;
 					}
-					
+
 					onSliceClickListener.onSliceClicked(this, slice);
 				}
 				return true;
@@ -189,5 +212,14 @@ public class PieChart extends View {
 		}
 
 		return super.onTouchEvent(event);
+	}
+
+	public void setDominantMeasurement(DominantMeasurement dominantMeasurement) {
+		this.dominantMeasurement = dominantMeasurement;
+		requestLayout();
+	}
+
+	public DominantMeasurement getDominantMeasurement() {
+		return dominantMeasurement;
 	}
 }

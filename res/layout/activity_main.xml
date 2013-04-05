@@ -1,8 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:tools="http://schemas.android.com/tools"
-	android:id="@+id/layout"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
+	android:background="#6000ff00"
 	android:orientation="vertical" >
 
 	<Button
@@ -10,5 +10,18 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:text="Animate" />
+	
+	<Button
+		android:id="@+id/buttonCancel"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="Cancel" />
+
+	<FrameLayout
+		android:id="@+id/layout"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="@drawable/ic_launcher" >
+	</FrameLayout>
 
 </LinearLayout>

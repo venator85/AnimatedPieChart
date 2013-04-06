@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical" >
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:orientation="vertical" >
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="110dp"
+			android:layout_margin="10dp"
+			android:orientation="vertical" >
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:orientation="horizontal" >
+
+				<TextView
+					android:id="@+id/txt_prompt_login_pin"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="2dp"
+					android:layout_marginRight="5dp"
+					android:layout_weight="1"
+					android:text="prompt_login_pin"
+					android:textSize="15dp" />
+
+				<LinearLayout
+					android:id="@+id/linear_annulla"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:background="#8000ff00"
+					android:orientation="horizontal"
+					android:padding="10dp" >
+
+					<ImageView
+						android:id="@+id/btn_annulla_step2"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="center"
+						android:layout_marginBottom="5dp"
+						android:layout_marginLeft="8dp"
+						android:layout_marginRight="8dp"
+						android:layout_marginTop="5dp"
+						android:duplicateParentState="true" />
+				</LinearLayout>
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="42dp"
+				android:layout_margin="10dp"
+				android:background="#ffcccccc"
+				android:orientation="horizontal"
+				android:weightSum="6" >
+
+				<TextView
+					android:id="@+id/pin_digit_1"
+					android:layout_width="0dp"
+					android:layout_height="match_parent"
+					android:layout_marginRight="6dp"
+					android:layout_weight="1"
+					android:enabled="false"
+					android:gravity="center"
+					android:text="*"
+					android:textSize="30dp" />
+
+				<TextView
+					android:id="@+id/pin_digit_2"
+					android:layout_width="0dp"
+					android:layout_height="match_parent"
+					android:layout_marginRight="6dp"
+					android:layout_weight="1"
+					android:enabled="false"
+					android:gravity="center"
+					android:text="*"
+					android:textSize="30dp" />
+
+				<TextView
+					android:id="@+id/pin_digit_3"
+					android:layout_width="0dp"
+					android:layout_height="match_parent"
+					android:layout_marginRight="6dp"
+					android:layout_weight="1"
+					android:enabled="false"
+					android:gravity="center"
+					android:text="*"
+					android:textSize="30dp" />
+
+				<TextView
+					android:id="@+id/pin_digit_4"
+					android:layout_width="0dp"
+					android:layout_height="match_parent"
+					android:layout_marginRight="6dp"
+					android:layout_weight="1"
+					android:enabled="false"
+					android:gravity="center"
+					android:text="*"
+					android:textSize="30dp" />
+
+				<TextView
+					android:id="@+id/pin_digit_5"
+					android:layout_width="0dp"
+					android:layout_height="match_parent"
+					android:layout_marginRight="6dp"
+					android:layout_weight="1"
+					android:enabled="false"
+					android:gravity="center"
+					android:text="*"
+					android:textSize="30dp" />
+
+				<TextView
+					android:id="@+id/pin_digit_6"
+					android:layout_width="0dp"
+					android:layout_height="match_parent"
+					android:layout_weight="1"
+					android:enabled="false"
+					android:gravity="center"
+					android:text="*"
+					android:textSize="30dp" />
+			</LinearLayout>
+		</LinearLayout>
+
+		<LinearLayout
+			android:id="@+id/viewPinpad"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_margin="10dp"
+			android:orientation="horizontal"
+			android:padding="5dp" >
+
+			<LinearLayout
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginRight="10dp"
+				android:layout_weight="0.25"
+				android:orientation="vertical" >
+
+				<ImageButton
+					android:id="@+id/button11"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:minHeight="50dp" />
+
+				<ImageButton
+					android:id="@+id/button21"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:minHeight="50dp" />
+
+				<ImageButton
+					android:id="@+id/button31"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:minHeight="50dp" />
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_marginRight="10dp"
+				android:layout_weight="0.25"
+				android:orientation="vertical" >
+
+				<ImageButton
+					android:id="@+id/button12"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:minHeight="50dp" />
+
+				<ImageButton
+					android:id="@+id/button22"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:minHeight="50dp" />
+
+				<ImageButton
+					android:id="@+id/button32"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:minHeight="50dp" />
+			</LinearLayout>
+
+			<LinearLayout
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:layout_weight="0.5"
+				android:orientation="vertical" >
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:baselineAligned="true"
+					android:orientation="horizontal" >
+
+					<LinearLayout
+						android:layout_width="0dp"
+						android:layout_height="wrap_content"
+						android:layout_marginRight="10dp"
+						android:layout_weight="0.5"
+						android:orientation="vertical" >
+
+						<ImageButton
+							android:id="@+id/button13"
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:minHeight="50dp" />
+
+						<ImageButton
+							android:id="@+id/button23"
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:minHeight="50dp" />
+					</LinearLayout>
+
+					<LinearLayout
+						android:layout_width="0dp"
+						android:layout_height="wrap_content"
+						android:layout_weight="0.5"
+						android:orientation="vertical" >
+
+						<ImageButton
+							android:id="@+id/button14"
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:minHeight="50dp" />
+
+						<ImageButton
+							android:id="@+id/button24"
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:minHeight="50dp" />
+					</LinearLayout>
+				</LinearLayout>
+
+				<Button
+					android:id="@+id/btn_cancella"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:minHeight="50dp"
+					android:text="Cancella" />
+			</LinearLayout>
+		</LinearLayout>
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical" >
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_margin="10dp"
+				android:orientation="horizontal" >
+
+				<TextView
+					android:id="@+id/txt_ultimo_accesso_data_ora"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:paddingRight="10dp"
+					android:text="login_ultimo_accesso"
+					android:textSize="13dp" />
+
+				<View
+					android:layout_width="1dp"
+					android:layout_height="match_parent"
+					android:background="#80cccccc" />
+
+				<TextView
+					android:id="@+id/txt_ultime_cifre_ca"
+					android:layout_width="0dp"
+					android:layout_height="wrap_content"
+					android:layout_weight="1"
+					android:paddingLeft="10dp"
+					android:text="login_ultime_cifre_ca"
+					android:textSize="13dp" />
+			</LinearLayout>
+
+			<Button
+				android:id="@+id/btn_avanti_step2"
+				android:layout_width="match_parent"
+				android:layout_height="45dp"
+				android:layout_marginLeft="5dp"
+				android:layout_marginRight="5dp"
+				android:layout_marginTop="10dp"
+				android:text="Avanti" />
+		</LinearLayout>
+	</LinearLayout>
+
+</LinearLayout>

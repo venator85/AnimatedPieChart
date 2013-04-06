@@ -2,26 +2,52 @@
 	xmlns:tools="http://schemas.android.com/tools"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:background="#6000ff00"
 	android:orientation="vertical" >
 
 	<Button
 		android:id="@+id/button"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text="Animate" />
-	
+		android:text="Animate"
+		android:visibility="gone" />
+
 	<Button
 		android:id="@+id/buttonCancel"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:text="Cancel" />
+		android:text="collapse" />
+
+	<Button
+		android:id="@+id/buttonExpand"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="expand" />
 
 	<FrameLayout
 		android:id="@+id/layout"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:background="@drawable/ic_launcher" >
+		android:background="@drawable/ic_launcher"
+		android:visibility="gone" >
 	</FrameLayout>
+
+	<com.animatedpiechart.CollapsableLinearLayout
+		android:id="@+id/animated"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="#6000ff00"
+		android:orientation="vertical"
+		android:paddingLeft="20dp"
+		android:paddingRight="20dp" >
+
+		<include layout="@layout/login_face_b" />
+	</com.animatedpiechart.CollapsableLinearLayout>
+
+	<Button
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:text="sdfsdf" />
+
+	<include layout="@layout/login_face_b" />
 
 </LinearLayout>

@@ -39,7 +39,16 @@ public class MainActivity extends Activity {
 		findViewById(R.id.buttonCancel).setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				p.stop();
+				CollapsableLinearLayout all = (CollapsableLinearLayout) findViewById(R.id.animated);
+				all.collapse();
+			}
+		});
+		
+		findViewById(R.id.buttonExpand).setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				CollapsableLinearLayout all = (CollapsableLinearLayout) findViewById(R.id.animated);
+				all.expand();
 			}
 		});
 	}

@@ -30,10 +30,15 @@
 		android:background="@drawable/ic_launcher"
 		android:visibility="gone" >
 	</FrameLayout>
+	
+	<LinearLayout android:layout_width="match_parent"
+		android:layout_height="wrap_content">
 
 	<com.animatedpiechart.CollapsableLinearLayout
 		android:id="@+id/animated"
-		android:layout_width="match_parent"
+		android:layout_width="0dp"
+		android:visibility="gone"
+		android:layout_weight="1"
 		android:layout_height="wrap_content"
 		android:background="#6000ff00"
 		android:orientation="vertical"
@@ -42,6 +47,15 @@
 
 		<include layout="@layout/login_face_b" />
 	</com.animatedpiechart.CollapsableLinearLayout>
+	
+	<TextView 
+		android:layout_width="0dp"
+		android:layout_weight="1"
+		android:layout_height="wrap_content"
+		android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eleifend dignissim suscipit. Sed dapibus commodo risus venenatis hendrerit. Ut facilisis nisl sit amet sapien ultricies scelerisque. Nullam magna purus, accumsan at aliquet a, gravida ultricies ipsum. Praesent lacinia, sem at tincidunt laoreet, nulla ipsum tristique tortor, eget porta ante erat in mi. Morbi sagittis vulputate commodo. Donec nec augue mi, quis ultricies lorem. Nam fringilla neque eu lacus molestie dictum. Nulla facilisi. In bibendum lobortis libero, dapibus volutpat nisl laoreet ut. Nulla mauris sem, venenatis vel rutrum cursus, porta a nisl. Vivamus dui purus, bibendum id interdum sed, consequat eu sem. Sed id cursus dolor."
+		/>
+	
+	</LinearLayout>
 
 	<Button
 		android:layout_width="match_parent"

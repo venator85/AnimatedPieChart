@@ -1,39 +1,92 @@
 package com.animatedpiechart;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Region;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.view.ViewGroup;
+import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.Animation.AnimationListener;
 import android.view.animation.Interpolator;
+import android.view.animation.Transformation;
 import android.widget.LinearLayout;
-
-import com.nineoldandroids.animation.Animator;
-import com.nineoldandroids.animation.AnimatorListenerAdapter;
-import com.nineoldandroids.animation.IntEvaluator;
-import com.nineoldandroids.animation.ValueAnimator;
 
 public class CollapsableLinearLayout extends LinearLayout {
 
-	private class HeightEvaluator extends IntEvaluator {
+	/**
+	 * @auther tjerk
+	 */
+	public class ExpandCollapseAnimation extends Animation {
+		private View mAnimatedView;
+		private int mEndHeight;
+		private int mType;
+		public final static int COLLAPSE = 1;
+		public final static int EXPAND = 0;
+		private LinearLayout.LayoutParams mLayoutParams;
+
+		public ExpandCollapseAnimation(View view, int type) {
+			mAnimatedView = view;
+			
+			mEndHeight = mAnimatedView.getMeasuredHeight();
+			if (mEndHeight == 0) {
+				// if animated view was initially gone, force measure it
+				int heightSpec = MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED);
+				final int parentWidth = ((View) mAnimatedView.getParent()).getMeasuredWidth();
+				int widthSpec = MeasureSpec.makeMeasureSpec(parentWidth, MeasureSpec.AT_MOST);
+				mAnimatedView.measure(widthSpec, heightSpec);
+				mEndHeight = mAnimatedView.getMeasuredHeight();
+			}
+			
+			mLayoutParams = ((LinearLayout.LayoutParams) view.getLayoutParams());
+			mType = type;
+			if (mType == EXPAND) {
+				mLayoutParams.bottomMargin = -mEndHeight;
+			} else {
+				mLayoutParams.bottomMargin = 0;
+			}
+			mAnimatedView.setVisibility(View.VISIBLE);
+		}
+
 		@Override
-		public Integer evaluate(float fraction, Integer startValue, Integer endValue) {
-			int height = super.evaluate(fraction, startValue, endValue);
-			ViewGroup.LayoutParams params = getLayoutParams();
-			params.height = height;
-			setLayoutParams(params);
-			return height;
+		protected void applyTransformation(float interpolatedTime, Transformation t) {
+			super.applyTransformation(interpolatedTime, t);
+			if (interpolatedTime < 1.0f) {
+				final int currentHeight = (int) (mEndHeight * interpolatedTime);
+				if (mType == EXPAND) {
+					mLayoutParams.bottomMargin = -mEndHeight + currentHeight;
+				} else {
+					mLayoutParams.bottomMargin = -currentHeight;
+				}
+				mAnimatedView.requestLayout();
+			} else {
+				if (mType == EXPAND) {
+					mLayoutParams.bottomMargin = 0;
+				} else {
+					mLayoutParams.bottomMargin = -mEndHeight;
+					mAnimatedView.setVisibility(View.INVISIBLE);
+				}
+				mAnimatedView.requestLayout();
+			}
 		}
 	}
 
-	private ValueAnimator animator;
+	@Override
+	public void draw(Canvas canvas) {
+		LayoutParams mLayoutParams = (LinearLayout.LayoutParams) getLayoutParams();
+		if (mLayoutParams.bottomMargin < 0) {
+			// if animating, clip the bottom portion of the view
+			canvas.clipRect(0, 0, getMeasuredWidth(), getMeasuredHeight() + mLayoutParams.bottomMargin, Region.Op.REPLACE);
+		}
+		super.draw(canvas);
+	}
+
 	private Interpolator interpolator = new AccelerateDecelerateInterpolator();
 
 	private boolean animating;
 
-	private int expandedHeight;
-
-	private long duration = 600;
+	private long duration = 3000;
 
 	public CollapsableLinearLayout(Context context) {
 		super(context);
@@ -51,6 +104,7 @@ public class CollapsableLinearLayout extends LinearLayout {
 	}
 
 	protected void onInit() {
+		setWillNotDraw(false);
 	}
 
 	@Override
@@ -60,14 +114,6 @@ public class CollapsableLinearLayout extends LinearLayout {
 			return true;
 		}
 		return super.onInterceptTouchEvent(ev);
-	}
-
-	@Override
-	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-		super.onSizeChanged(w, h, oldw, oldh);
-		if ((w != oldw || h != oldh) && !animating && h != 0) {
-			expandedHeight = h;
-		}
 	}
 
 	public void setAnimationDuration(long duration) {
@@ -87,49 +133,33 @@ public class CollapsableLinearLayout extends LinearLayout {
 	}
 
 	public void expand() {
-		if (getHeight() != expandedHeight) {
-			animateHeight(0, expandedHeight);
-		}
+		animateHeight(ExpandCollapseAnimation.EXPAND);
 	}
 
 	public void collapse() {
-		if (getHeight() != 0) {
-			animateHeight(expandedHeight, 0);
-		}
+		animateHeight(ExpandCollapseAnimation.COLLAPSE);
 	}
 
-	private void animateHeight(int startHeight, int endHeight) {
-		long previousAnimationPlayTime = -1;
-		if (animator != null && animator.isRunning()) {
-			previousAnimationPlayTime = animator.getCurrentPlayTime();
-			animator.cancel();
-		}
-		animator = ValueAnimator.ofObject(new HeightEvaluator(), startHeight, endHeight);
-		animator.setInterpolator(interpolator);
-		animator.setDuration(duration);
-		animator.addListener(new AnimatorListenerAdapter() {
+	private void animateHeight(int type) {
+		ExpandCollapseAnimation animation = new ExpandCollapseAnimation(this, type);
+		animation.setDuration(duration);
+		animation.setAnimationListener(new AnimationListener() {
 			@Override
-			public void onAnimationStart(Animator animation) {
+			public void onAnimationStart(Animation animation) {
 				animating = true;
 			}
 
 			@Override
-			public void onAnimationEnd(Animator animation) {
+			public void onAnimationRepeat(Animation animation) {
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
 				animating = false;
 			}
 		});
-		animator.start();
-		if (previousAnimationPlayTime != -1) {
-			animator.setCurrentPlayTime(duration - previousAnimationPlayTime);
-		}
+		animation.setInterpolator(interpolator);
+		startAnimation(animation);
 	}
 
-	@Override
-	protected void onLayout(boolean changed, int l, int t, int r, int b) {
-		// We don't want children to move during animation.
-		// Also, don't layout children if our height is zero.
-		if (!animating && t != b) {
-			super.onLayout(changed, l, t, r, b);
-		}
-	}
 }
